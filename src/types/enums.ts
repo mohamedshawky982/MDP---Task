@@ -1,0 +1,5 @@
+export enum TRANSATIONS {
+  INCOME = 'INCOME',
+  EXPENSES = 'EXPENSES',
+  ALL = 'ALL',
+}
