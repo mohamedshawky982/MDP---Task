@@ -1,7 +1,7 @@
 import {TRANSATIONS} from './enums';
 
 export interface ITransactionType {
-  value: TRANSATIONS;
+  value: TRANSATIONS | undefined;
   onPress: (value: TRANSATIONS) => void;
   showAll?: boolean;
 }

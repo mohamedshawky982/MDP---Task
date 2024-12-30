@@ -24,7 +24,7 @@ const useAddTransactionsController = () => {
         description: '',
         category: '',
         transactionType: TRANSATIONS.INCOME,
-        date: '',
+        date: new Date(),
       },
       validationSchema: scehme,
       onSubmit: () => handleOnSubmit(),

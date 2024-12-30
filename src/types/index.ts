@@ -3,3 +3,4 @@ export * from './enums';
 export * from './sections';
 export * from './actions';
 export * from './items';
+export * from './modal';

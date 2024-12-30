@@ -13,6 +13,7 @@ export interface IAppButton {
   disableds?: boolean;
   label: string;
   isLarge?: boolean;
+  isOutLined?: boolean;
 }
 
 export interface IAppText {
@@ -42,10 +43,11 @@ export interface IAppRadioButton {
 }
 
 export interface IAppDatePicker {
-  value: string;
+  value: Date | null;
   isVisible: boolean;
   onCancel: () => void;
-  onDateChange: (value: string) => void;
+  onDateChange: (value: Date) => void;
   onPress: () => void;
   error: FormikErrors<Date> | undefined;
+  label?: string;
 }

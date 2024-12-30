@@ -1,32 +1,44 @@
 import {FlatList, View} from 'react-native';
 import {
   AppButton,
-  AppInput,
   EmptyData,
-  TransactionType,
+  FilterModal,
+  TranssactionItem,
 } from '../../components';
 import {useHomeController} from '../../hooks';
-import styles from '../styles';
-import {TranssactionItem} from '../../components';
 import {TRANSATIONS} from '../../types';
+import styles from '../styles';
+import {useMemo} from 'react';
+import moment from 'moment';
 
 const Home = () => {
-  const {onAddTransctionPress, transactions, filter, onFilterPress} =
-    useHomeController();
+  const {
+    onAddTransctionPress,
+    transactions,
+    filter,
+    onFilterPress,
+    filterRef,
+    onSubmitFilter,
+    startDate,
+    endDate,
+  } = useHomeController();
+  const filteredTransactions =
+    !!filter || !!(startDate && endDate)
+      ? transactions?.filter(transaction =>
+          !!(startDate && endDate)
+            ? transaction.transactionType === filter &&
+              new Date(startDate!) <= new Date(transaction?.date) &&
+              new Date(endDate!) >= new Date(transaction?.date)
+            : transaction.transactionType === filter,
+        )
+      : transactions;
+
   return (
     <View style={styles.container}>
-      <View style={styles.row}>
-        <TransactionType showAll value={filter} onPress={onFilterPress} />
-      </View>
+      <AppButton label="Filter" isLarge onPress={onFilterPress} />
 
       <FlatList
-        data={
-          filter === TRANSATIONS.ALL
-            ? transactions
-            : transactions?.filter(
-                transaction => transaction.transactionType === filter,
-              )
-        }
+        data={filteredTransactions}
         renderItem={({item}) => (
           <TranssactionItem
             transactionType={item?.transactionType}
@@ -37,22 +49,6 @@ const Home = () => {
           />
         )}
         ListEmptyComponent={() => <EmptyData />}
-        ListHeaderComponent={() => (
-          <View style={{width: '100%', alignItems: 'center'}}>
-            <AppInput
-              label="Date from"
-              value=""
-              onPress={() => {}}
-              placeholder="Date from"
-            />
-            <AppInput
-              label="Date to"
-              value=""
-              onPress={() => {}}
-              placeholder="Date to"
-            />
-          </View>
-        )}
       />
 
       <AppButton
@@ -60,6 +56,8 @@ const Home = () => {
         isLarge
         label={'Add new transaction'}
       />
+
+      <FilterModal ref={filterRef} onSubmit={onSubmitFilter} />
     </View>
   );
 };

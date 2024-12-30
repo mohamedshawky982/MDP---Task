@@ -1,7 +1,9 @@
 import moment from 'moment';
 
-export const formatDateTime = (date: string) => {
+export const formatDateTime = (date: Date, format?: string) => {
   var stillUtc = moment.utc(date).toDate();
-  var local = moment(stillUtc).local().format('YYYY-MM-DD HH:mm');
+  var local = moment(stillUtc)
+    .local()
+    .format(format ?? 'YYYY-MM-DD');
   return local;
 };

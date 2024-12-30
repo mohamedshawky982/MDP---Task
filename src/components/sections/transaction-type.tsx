@@ -6,13 +6,6 @@ import {ITransactionType, TRANSATIONS} from '../../types';
 const TransactionType: FC<ITransactionType> = ({value, onPress, showAll}) => {
   return (
     <View style={styles.container}>
-      {showAll && (
-        <AppRadioButton
-          label={'All'}
-          isActive={TRANSATIONS.ALL === value}
-          onPress={() => onPress(TRANSATIONS.ALL)}
-        />
-      )}
       <AppRadioButton
         label={'Income'}
         isActive={TRANSATIONS.INCOME === value}

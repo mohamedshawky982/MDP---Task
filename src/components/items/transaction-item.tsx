@@ -37,7 +37,7 @@ const TranssactionItem: FC<ITransactionItem> = ({
             {isIncome ? '+' : '-'}{' '}
             <AppText style={{fontWeight: '600'}}>{amount}</AppText>
           </AppText>
-          <AppText> {formatDateTime(date)}</AppText>
+          <AppText> {formatDateTime(date, 'YYYY-MM-DD HH:mm')}</AppText>
         </View>
       </View>
     </View>
