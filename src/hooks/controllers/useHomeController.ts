@@ -22,6 +22,20 @@ const useHomeController = () => {
   const [startDate, setStartDate] = useState<Date | null>(null);
   const [endDate, setEndDate] = useState<Date | null>(null);
 
+  const isDateSelected = !!(startDate && endDate);
+  const displayFilteredData = !!filter || !!(startDate && endDate);
+  const _renderCondition = (date: Date) =>
+    new Date(startDate!) <= new Date(date) &&
+    new Date(endDate!) >= new Date(date);
+
+  const filteredTransactions = displayFilteredData
+    ? transactions?.filter(transaction =>
+        isDateSelected
+          ? transaction.transactionType === filter &&
+            _renderCondition(transaction?.date)
+          : transaction.transactionType === filter,
+      )
+    : transactions;
   const onAddTransctionPress = () => {
     navigation.navigate('AddTransation');
   };
@@ -47,14 +61,10 @@ const useHomeController = () => {
 
   return {
     onAddTransctionPress,
-    transactions,
-    filter,
     onFilterPress,
     filterRef,
-    onFilterChange,
-    startDate,
     onSubmitFilter,
-    endDate,
+    filteredTransactions,
   };
 };
 

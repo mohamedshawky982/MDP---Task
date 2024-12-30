@@ -6,32 +6,16 @@ import {
   TranssactionItem,
 } from '../../components';
 import {useHomeController} from '../../hooks';
-import {TRANSATIONS} from '../../types';
 import styles from '../styles';
-import {useMemo} from 'react';
-import moment from 'moment';
 
 const Home = () => {
   const {
     onAddTransctionPress,
-    transactions,
-    filter,
     onFilterPress,
     filterRef,
     onSubmitFilter,
-    startDate,
-    endDate,
+    filteredTransactions,
   } = useHomeController();
-  const filteredTransactions =
-    !!filter || !!(startDate && endDate)
-      ? transactions?.filter(transaction =>
-          !!(startDate && endDate)
-            ? transaction.transactionType === filter &&
-              new Date(startDate!) <= new Date(transaction?.date) &&
-              new Date(endDate!) >= new Date(transaction?.date)
-            : transaction.transactionType === filter,
-        )
-      : transactions;
 
   return (
     <View style={styles.container}>

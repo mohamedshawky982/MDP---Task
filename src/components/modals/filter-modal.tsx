@@ -4,30 +4,49 @@ import {StyleSheet, View} from 'react-native';
 import {AppButton, AppDatePicker, AppWhiteSpace} from '../atoms';
 import {TransactionType} from '../sections';
 import {IFilterModal, TRANSATIONS} from '../../types';
+import {useFormik} from 'formik';
+import * as yup from 'yup';
 
+const scheme = yup.object().shape({
+  startDate: yup.string().optional(),
+  endDate: yup.date().when('startDate', (startDate, schema) => {
+    if (startDate) return schema.required('Enter a valid to date');
+    return schema;
+  }),
+});
 const FilterModal: ForwardRefRenderFunction<unknown, IFilterModal> = (
   props,
   ref: any,
 ) => {
   const {onSubmit} = props;
   const [filter, setFilter] = useState<TRANSATIONS>();
-  const [startDate, setStartDate] = useState<Date | null>(null);
-  const [endDate, setEndDate] = useState<Date | null>(null);
+
+  const {values, resetForm, setFieldValue, errors, isValid, touched} =
+    useFormik({
+      initialValues: {
+        startDate: '',
+        endDate: '',
+      },
+      validationSchema: scheme,
+      onSubmit: () => {},
+    });
+  // const [startDate, setStartDate] = useState<Date | null>(null);
+  // const [endDate, setEndDate] = useState<Date | null>(null);
 
   const [isStartDateVisible, setIsStartDateVisible] = useState(false);
   const [isEndDateVisible, setIsEndDateVisible] = useState(false);
 
   const onSubmitPress = () => {
-    onSubmit({
-      filter,
-      startDate,
-      endDate,
-    });
+    if (isValid)
+      onSubmit({
+        filter,
+        startDate: values?.startDate as any,
+        endDate: values?.endDate as any,
+      });
   };
   const onResetPress = () => {
     setFilter(undefined);
-    setStartDate(null);
-    setEndDate(null);
+    resetForm();
     onSubmit({
       filter: undefined,
       startDate: null,
@@ -44,22 +63,22 @@ const FilterModal: ForwardRefRenderFunction<unknown, IFilterModal> = (
         <AppDatePicker
           isVisible={isStartDateVisible}
           onCancel={() => setIsStartDateVisible(false)}
-          onDateChange={date => setStartDate(date)}
+          onDateChange={date => setFieldValue('startDate', date)}
           onPress={() => setIsStartDateVisible(true)}
-          error=""
+          error={errors?.startDate}
           label="Date from"
-          value={startDate}
+          value={values?.startDate as any}
         />
         <AppWhiteSpace />
 
         <AppDatePicker
           isVisible={isEndDateVisible}
           onCancel={() => setIsEndDateVisible(false)}
-          onDateChange={date => setEndDate(date)}
+          onDateChange={date => setFieldValue('endDate', date)}
           onPress={() => setIsEndDateVisible(true)}
-          error=""
+          error={errors?.endDate}
           label="Date to"
-          value={endDate}
+          value={values?.endDate as any}
         />
       </View>
       <AppWhiteSpace />
