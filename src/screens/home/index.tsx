@@ -15,12 +15,25 @@ const Home = () => {
     filterRef,
     onSubmitFilter,
     filteredTransactions,
+    filter,
+    startDate,
+    endDate,
   } = useHomeController();
 
   return (
     <View style={styles.container}>
-      <AppButton label="Filter" isLarge onPress={onFilterPress} />
-
+      <AppButton
+        label="Filter"
+        style={{alignSelf: 'flex-start', marginLeft: 10, marginTop: 10}}
+        onPress={onFilterPress}
+        badgeNumber={
+          filter && startDate && endDate
+            ? 2
+            : filter || (startDate && endDate)
+            ? 1
+            : undefined
+        }
+      />
       <FlatList
         data={filteredTransactions}
         renderItem={({item}) => (

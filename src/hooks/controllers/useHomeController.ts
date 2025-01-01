@@ -1,19 +1,9 @@
 import {useNavigation} from '@react-navigation/native';
-import {useTransactionsSelector} from '../../state-management';
-import {useSelector} from 'react-redux';
 import {useRef, useState} from 'react';
-import {
-  IFilterModal,
-  IModalRef,
-  IOnSubmitFilterParams,
-  TRANSATIONS,
-} from '../../types';
-import {useFormik} from 'formik';
-import * as Yup from 'yup';
-const scheme = Yup.object().shape({
-  from: Yup.date().required(''),
-  to: Yup.date().required(''),
-});
+import {useSelector} from 'react-redux';
+import {useTransactionsSelector} from '../../state-management';
+import {IModalRef, IOnSubmitFilterParams, TRANSATIONS} from '../../types';
+
 const useHomeController = () => {
   const navigation = useNavigation();
   const filterRef = useRef<IModalRef>();
@@ -24,16 +14,18 @@ const useHomeController = () => {
 
   const isDateSelected = !!(startDate && endDate);
   const displayFilteredData = !!filter || !!(startDate && endDate);
-  const _renderCondition = (date: Date) =>
+  const _renderDateCondition = (date: Date) =>
     new Date(startDate!) <= new Date(date) &&
     new Date(endDate!) >= new Date(date);
 
   const filteredTransactions = displayFilteredData
     ? transactions?.filter(transaction =>
-        isDateSelected
+        isDateSelected && !!filter
           ? transaction.transactionType === filter &&
-            _renderCondition(transaction?.date)
-          : transaction.transactionType === filter,
+            _renderDateCondition(transaction?.date)
+          : !!filter
+          ? transaction.transactionType === filter
+          : _renderDateCondition(transaction?.date),
       )
     : transactions;
   const onAddTransctionPress = () => {
@@ -41,9 +33,6 @@ const useHomeController = () => {
   };
   const onFilterPress = () => {
     openFilterModal();
-  };
-  const onFilterChange = (value: TRANSATIONS) => {
-    setFilter(value);
   };
 
   const openFilterModal = () => {
@@ -65,6 +54,9 @@ const useHomeController = () => {
     filterRef,
     onSubmitFilter,
     filteredTransactions,
+    filter,
+    startDate,
+    endDate,
   };
 };
 

@@ -1,5 +1,5 @@
-import {FC} from 'react';
-import {StyleSheet, TouchableOpacity} from 'react-native';
+import {FC, Fragment} from 'react';
+import {StyleSheet, TouchableOpacity, View} from 'react-native';
 import {IAppButton} from '../../types';
 import {COLORS} from '../../common';
 import AppText from './AppText';
@@ -10,6 +10,7 @@ const AppButton: FC<IAppButton> = ({
   label,
   isLarge,
   isOutLined,
+  badgeNumber,
 }) => {
   return (
     <TouchableOpacity
@@ -26,6 +27,11 @@ const AppButton: FC<IAppButton> = ({
       <AppText style={{color: isOutLined ? COLORS.primary : 'white'}}>
         {label}
       </AppText>
+      {badgeNumber && (
+        <View style={styles.badge}>
+          <AppText style={{fontSize: 12}}>{badgeNumber}</AppText>
+        </View>
+      )}
     </TouchableOpacity>
   );
 };
@@ -41,5 +47,15 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignSelf: 'center',
     borderColor: COLORS.primary,
+  },
+  badge: {
+    width: 20,
+    height: 20,
+    borderRadius: 10,
+    position: 'absolute',
+    top: 0,
+    right: -5,
+    backgroundColor: 'white',
+    alignItems: 'center',
   },
 });

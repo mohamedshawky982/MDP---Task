@@ -14,6 +14,7 @@ export interface IAppButton {
   label: string;
   isLarge?: boolean;
   isOutLined?: boolean;
+  badgeNumber?: number;
 }
 
 export interface IAppText {
