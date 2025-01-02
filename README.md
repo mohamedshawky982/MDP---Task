@@ -1,12 +1,12 @@
-###  Run instructions
+#  Run instructions
 
-# iOS
+## iOS
 - npm run ios
 
-# Android
+## Android
 - npm run android
 
-### Architecture
+# Architecture
 
 - assets: contains the whole project assests.
 - common: contains the whole project themes like colors.
