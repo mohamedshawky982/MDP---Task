@@ -52,6 +52,7 @@ const Home = () => {
         onPress={onAddTransctionPress}
         isLarge
         label={'Add new transaction'}
+        style={{marginBottom: 5}}
       />
 
       <FilterModal ref={filterRef} onSubmit={onSubmitFilter} />
