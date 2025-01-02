@@ -8,8 +8,8 @@
 
 # Architecture
 
-- assets: contains the whole project assests.
-- common: contains the whole project themes like colors.
+- assets: contain the whole project assests like fonts.
+- common: contain the whole project themes like colors.
 - components: contsists of files:
  - atoms: which are the app components that used many times.
  - items: which are the lists items. 
