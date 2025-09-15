@@ -1,4 +1,3 @@
-import {Text} from 'react-native';
 import {Provider} from 'react-redux';
 import store, {persistedStore} from './src/state-management';
 import {PersistGate} from 'redux-persist/integration/react';
