@@ -1,61 +1,14 @@
-import {FlatList, View} from 'react-native';
-import {
-  AppButton,
-  EmptyData,
-  FilterModal,
-  TranssactionItem,
-} from '../../components';
-import {useHomeController} from '../../hooks';
-import styles from '../styles';
+import {StartLesson} from '@components';
+import {View} from 'react-native';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
+import createStyle from '../styles';
 
 const Home = () => {
-  const {
-    onAddTransctionPress,
-    onFilterPress,
-    filterRef,
-    onSubmitFilter,
-    filteredTransactions,
-    filter,
-    startDate,
-    endDate,
-  } = useHomeController();
-
+  const {top} = useSafeAreaInsets();
+  const styles = createStyle(top);
   return (
     <View style={styles.container}>
-      <AppButton
-        label="Filter"
-        style={{alignSelf: 'flex-start', marginLeft: 10, marginTop: 10}}
-        onPress={onFilterPress}
-        badgeNumber={
-          filter && startDate && endDate
-            ? 2
-            : filter || (startDate && endDate)
-            ? 1
-            : undefined
-        }
-      />
-      <FlatList
-        data={filteredTransactions}
-        renderItem={({item}) => (
-          <TranssactionItem
-            transactionType={item?.transactionType}
-            date={item?.date}
-            amount={item?.amount}
-            description={item?.description}
-            category={item?.category}
-          />
-        )}
-        ListEmptyComponent={() => <EmptyData />}
-      />
-
-      <AppButton
-        onPress={onAddTransctionPress}
-        isLarge
-        label={'Add new transaction'}
-        style={{marginBottom: 5}}
-      />
-
-      <FilterModal ref={filterRef} onSubmit={onSubmitFilter} />
+      <StartLesson />
     </View>
   );
 };

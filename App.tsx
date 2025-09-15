@@ -1,15 +1,11 @@
-import {Provider} from 'react-redux';
-import store, {persistedStore} from './src/state-management';
-import {PersistGate} from 'redux-persist/integration/react';
-import RootStack from './src/navigation/root-stack';
+import {SafeAreaProvider} from 'react-native-safe-area-context';
+import {Home} from '@screens';
 
 const App = () => {
   return (
-    <Provider store={store}>
-      <PersistGate persistor={persistedStore}>
-        <RootStack />
-      </PersistGate>
-    </Provider>
+    <SafeAreaProvider style={{flex: 1}}>
+      <Home />
+    </SafeAreaProvider>
   );
 };
 

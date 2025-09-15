@@ -1,15 +1,16 @@
 import {StyleSheet} from 'react-native';
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: 'white',
-  },
-  row: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    width: '100%',
-  },
-});
-export default styles;
+const createStyle = (topInsets: number) =>
+  StyleSheet.create({
+    container: {
+      flex: 1,
+      backgroundColor: 'white',
+      marginTop: topInsets,
+    },
+    row: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'center',
+      width: '100%',
+    },
+  });
+export default createStyle;
